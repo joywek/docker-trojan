@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+    trojan:
+      build: .
+      restart: always
+      ports:
+        - "7443:443"                  
+      volumes:
+        - ./config.json:/etc/trojan/config.json
+        - ./pki/:/etc/trojan/pki
+      command: /usr/local/bin/trojan-go -config /etc/trojan/config.json
