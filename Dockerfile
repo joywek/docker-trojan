@@ -1,6 +1,6 @@
 FROM golang:alpine3.13 AS builder
 
-WORKDIR /root
+WORKDIR /
 
 RUN set -ex \
     && apk add --no-cache git make \
@@ -10,9 +10,13 @@ RUN set -ex \
 
 FROM alpine
 
-WORKDIR /root
+WORKDIR /
 
 RUN apk add --no-cache tzdata ca-certificates
-COPY --from=builder /root/trojan-go/build/trojan-go /usr/local/bin/
+COPY --from=builder /trojan-go/build/trojan-go /usr/local/bin/
+COPY ./server.json /etc/trojan-go/config.json
 
 ENV TZ=Asia/Shanghai
+
+ENTRYPOINT ["/usr/local/bin/trojan-go", "-config"]
+CMD ["/etc/trojan-go/config.json"]
