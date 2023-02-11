@@ -14,9 +14,8 @@ WORKDIR /
 
 RUN apk add --no-cache tzdata ca-certificates
 COPY --from=builder /trojan-go/build/trojan-go /usr/local/bin/
-COPY ./server.json /etc/trojan-go/config.json
 
 ENV TZ=Asia/Shanghai
 
 ENTRYPOINT ["/usr/local/bin/trojan-go", "-config"]
-CMD ["/etc/trojan-go/config.json"]
+CMD ["/etc/trojan/config.json"]
